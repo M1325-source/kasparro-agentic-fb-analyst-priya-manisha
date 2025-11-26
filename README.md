@@ -156,6 +156,16 @@ Copy code
 
 ---
 
+🏷️ Release
+
+v1.0 Release:
+https://github.com/M1325-source/kasparro-agentic-fb-analyst-priya-manisha/releases/tag/v1.0
+
+📝 Self-Review (PR)
+
+Pull Request:
+https://github.com/M1325-source/kasparro-agentic-fb-analyst-priya-manisha/pull/1
+
 # 🧪 Tests
 Basic evaluator tests included in:
 
