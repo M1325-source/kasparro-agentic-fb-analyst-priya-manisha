@@ -5,6 +5,7 @@ The system diagnoses ROAS drops, validates hypotheses, and generates new creativ
 
 ---
 
+
 # 🚀 Features
 ✔ Multi-Agent Architecture (Planner → Data → Insight → Evaluator → Creative Generator)  
 ✔ Quantitative + Qualitative reasoning  
@@ -14,6 +15,27 @@ The system diagnoses ROAS drops, validates hypotheses, and generates new creativ
 ✔ Reproducible results with sample dataset  
 
 ---
+
+📊 Data
+
+Place the full CSV locally and set:
+
+DATA_CSV=/path/to/synthetic_fb_ads_undergarments.csv
+
+Or use small sample at:
+
+data/sample_fb_ads.csv
+
+See data/README.md for schema details.
+
+⚙️ Config
+
+Edit config/config.yaml:
+
+python: "3.10"
+random_seed: 42
+confidence_min: 0.6
+use_sample_data: true
 
 # 📂 Project Structure
 
@@ -89,11 +111,9 @@ Copy code
 
 # ▶️ How to Run
 
-## 1️⃣ Create virtual environment
-python -m venv .venv
-
-makefile
-Copy code
+make run
+# or:
+python src/run.py "Analyze ROAS drop"
 
 ## 2️⃣ Activate
 Windows:
