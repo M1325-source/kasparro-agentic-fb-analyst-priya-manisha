@@ -1,0 +1,10 @@
+python: "3.10"
+random_seed: 42
+confidence_min: 0.5
+use_sample_data: true
+paths:
+  sample: data/sample_fb_ads.csv
+output:
+  insights: reports/insights.json
+  creatives: reports/creatives.json
+  report: reports/report.md
