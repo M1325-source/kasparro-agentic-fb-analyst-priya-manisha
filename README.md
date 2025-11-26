@@ -1,4 +1,4 @@
-# Kasparro Agentic Facebook Performance Analyst — Priya Manisha
+# Kasparro Agentic Facebook Performance Analyst — Manisha Priya
 
 This repository contains my solution for the **Kasparro Applied AI Engineer Assignment**, where I built a fully agentic, multi-step Facebook Ads performance analyst.  
 The system diagnoses ROAS drops, validates hypotheses, and generates new creative ideas using structured LLM reasoning.
