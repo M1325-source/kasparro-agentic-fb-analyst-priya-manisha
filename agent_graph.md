@@ -1,376 +1,185 @@
-\# Agent Graph — Kasparro Agentic Facebook Performance Analyst
+# Agent Graph & Data Flow — Kasparro Agentic Facebook Performance Analyst
 
-
-
-This document explains how the multi-agent system works internally, how data flows between agents, and how the planner–evaluator loop forms an iterative reasoning cycle.
-
-
+This document explains the multi-agent architecture, data flow, agent responsibilities, I/O schemas and observability.  
+It is designed to make the pipeline auditable, extensible and aligned with Kasparro's evaluation rubric.
 
 ---
 
+## Mermaid diagram (high-level flow)
 
-
-\# 🔍 High-Level Architecture
-
-
-
+```mermaid
 flowchart TD
+  U[User Query / CLI] --> P[Planner Agent]
+  P -->|subtasks| DA[Data Agent\n(load, clean, summarize)]
+  DA -->|summary| IA[Insight Agent\n(generate hypotheses)]
+  IA -->|hypotheses| EV[Evaluator Agent\n(validate quantitatively)]
+  EV -->|validated_insights| P
+  P --> CG[Creative Generator\n(generate creatives for low-CTR campaigns)]
+  CG --> R[Report Builder\n(insights.json, creatives.json, report.md)]
+  EV --> R
+  DA --> R
+  R --> OUT[reports/]
+  LOGS((logs/run_logs.json)) --- DA
+  LOGS --- IA
+  LOGS --- EV
+  LOGS --- CG
+Short summary (one-liner)
+Planner decomposes a request → Data Agent summarizes the dataset → Insight Agent proposes hypotheses → Evaluator validates with data and returns confidence → Creative Generator crafts new ad ideas → Report Builder writes outputs.
 
+Agent responsibilities (detailed)
+Planner Agent
+Role: Orchestrator and task decomposer.
 
+Inputs: user_query, config, data_summary (when available).
 
-A\[User Query] --> B\[Planner Agent]
+Outputs: ordered tasks JSON (id, name, required_agents, output_schema, priority).
 
+Behavior: If validated_insights.confidence < threshold, insert a retry/refine task. Always return a JSON list of subtasks for the orchestrator.
 
+Example task schema
 
-B -->|Defines subtasks| C\[Data Agent]
-
-B -->|Requests hypotheses| D\[Insight Agent]
-
-
-
-C -->|Summaries + metrics| D
-
-
-
-D -->|Hypotheses + evidence| E\[Evaluator Agent]
-
-
-
-E -->|Validation results + confidence| B
-
-
-
-B --> F\[Creative Improvement Generator]
-
-F -->|New creatives| G\[(reports/)]
-
-
-
-E --> G
-
-D --> G
-
-
-
-yaml
-
+json
 Copy code
+{
+  "id": 1,
+  "name": "compute_summary",
+  "required_agents": ["DataAgent"],
+  "output_schema": {"rows":"int","roas_change_pct":"float","median_ctr":"float"},
+  "priority": 10
+}
+Data Agent
+Role: Load CSV, clean, compute campaign/adset-level metrics.
 
+Inputs: CSV path from config/config.yaml.
 
+Outputs: data_summary JSON with keys:
 
----
+rows, period, first_mean_roas, last_mean_roas, roas_change_pct
 
+median_ctr, campaign_metrics (ctr, roas, spend, impressions, clicks)
 
+low_ctr_campaigns (list), samples (creative_message samples per campaign)
 
-\# 🧠 Agent Roles
+Notes: Always use aggregated numbers (no raw CSV passed to LLMs).
 
+Insight Agent
+Role: Generate structured hypotheses to explain observed patterns.
 
+Inputs: data_summary
 
-\### \*\*1. Planner Agent\*\*
+Outputs: hypotheses_block JSON:
 
-\- Breaks user query into structured tasks  
+roas_change_pct
 
-\- Controls loop between Insight → Evaluator → Planner  
+hypotheses: list of {id, hypothesis, metric, reason, suggested_checks, initial_confidence}
 
-\- Decides when insight is “good enough”  
+Prompt pattern: Think -> Analyze -> Conclude and return JSON only. If low confidence (<0.6) include "reflection" notes.
 
-\- Sends final task to Creative Generator  
+Evaluator Agent
+Role: Validate hypotheses quantitatively and produce evidence + confidence.
 
+Inputs: hypotheses_block, data_summary
 
+Outputs: validated JSON:
 
----
+roas_change_pct
 
+hypotheses: list of {hypothesis, confidence, evidence}
 
+Validation logic examples:
 
-\### \*\*2. Data Agent\*\*
+CTR hypothesis → compute median CTR & worst campaign CTR → confidence = f(relative_change)
 
-\- Loads CSV  
+Impressions hypothesis → compute changes in frequency/impression share
 
-\- Cleans + summarizes  
+Testing: Provide unit tests to confirm validate() returns required schema.
 
-\- Computes metrics (ROAS, CTR, CPM, CVR)  
+Creative Generator
+Role: For low-CTR campaigns, propose 3 creative variations each (headline, primary_text, cta).
 
-\- Returns structured JSON  
+Inputs: samples for campaign, common_keywords, tone constraints
 
+Outputs: creatives.json — array of {campaign_name, suggestions:[{headline, text, cta, explain}]}
 
+Constraints: Use dataset vocabulary; do not hallucinate product attributes.
 
----
+Report Builder
+Role: Collate validated insights + creatives into report.md and write insights.json & creatives.json.
 
+Outputs written to: reports/insights.json, reports/creatives.json, reports/report.md
 
+Encoding: UTF-8 with ensure_ascii=False for JSON.
 
-\### \*\*3. Insight Agent\*\*
+Observability & Logs
+All agents write compact events to logs/run_logs.json:
 
-\- Generates hypotheses  
-
-\- Uses Think → Analyze → Conclude  
-
-\- Never hallucinates data (uses summaries only)  
-
-
-
----
-
-
-
-\### \*\*4. Evaluator Agent\*\*
-
-\- Quantitatively validates hypotheses  
-
-\- Computes supporting % drops, correlations, trends  
-
-\- Returns confidence score  
-
-
-
----
-
-
-
-\### \*\*5. Creative Generator\*\*
-
-\- For low-CTR segments, generates new creatives  
-
-\- Based on existing messaging patterns  
-
-\- Produces variations: headlines, primary text, CTAs  
-
-
-
----
-
-
-
-\# 🔁 Iterative Reasoning Loop
-
-1\. Planner → ask: “Why did ROAS drop?”  
-
-2\. Insight Agent → propose hypothesis  
-
-3\. Evaluator → check data trends  
-
-4\. Planner:  
-
-&nbsp;  - If confidence < threshold → ask for revision  
-
-&nbsp;  - If satisfied → conclude → move to creative generation  
-
-
-
----
-
-
-
-\# 📦 Final Outputs Produced
-
-\- \*\*insights.json\*\*  
-
-\- \*\*creatives.json\*\*
-
-\- \*\*report.md\*\*
-
-\- Optional: logs + traces  
-
-
-
----
-
-
-
-\# 🏁 Summary
-
-The system mimics how a real senior growth analyst works — by combining:  
-
-\*\*Planner → Insight → Evaluator → Creative\*\*  
-
-This is exactly the architecture Kasparro wants for their LLM-native analytics engine.
-
-
-
-\# Agent Graph — Kasparro Agentic Facebook Performance Analyst
-
-
-
-This document explains how the multi-agent system works internally, how data flows between agents, and how the planner–evaluator loop forms an iterative reasoning cycle.
-
-
-
----
-
-
-
-\# 🔍 High-Level Architecture
-
-
-
-flowchart TD
-
-
-
-A\[User Query] --> B\[Planner Agent]
-
-
-
-B -->|Defines subtasks| C\[Data Agent]
-
-B -->|Requests hypotheses| D\[Insight Agent]
-
-
-
-C -->|Summaries + metrics| D
-
-
-
-D -->|Hypotheses + evidence| E\[Evaluator Agent]
-
-
-
-E -->|Validation results + confidence| B
-
-
-
-B --> F\[Creative Improvement Generator]
-
-F -->|New creatives| G\[(reports/)]
-
-
-
-E --> G
-
-D --> G
-
-
-
-yaml
-
+json
 Copy code
+{"ts":"2025-11-26T11:19:00","agent":"DataAgent","msg":"Loaded n rows from sample_fb_ads.csv"}
+Logs include: timestamp, agent, message, optional meta (counts, threshold values).
 
+Retry / Reflection loop
+If Evaluator returns any hypothesis with confidence < config.confidence_min:
 
+Planner inserts a refine task: id: 98 asking InsightAgent to rerun with broader samples or alternate checks.
 
----
+System retries up to config.retry_max times (default 2) before marking hypothesis as low-confidence in final report.
 
+Config knobs (config/config.yaml)
+random_seed — reproducibility
 
+confidence_min — threshold for auto-accept
 
-\# 🧠 Agent Roles
+use_sample_data — toggle sample vs full dataset
 
+paths.sample — data path
 
+output.* — output file paths
 
-\### \*\*1. Planner Agent\*\*
+Example output schemas
+insights.json
 
-\- Breaks user query into structured tasks  
+json
+Copy code
+{
+  "roas_change_pct": -0.28,
+  "hypotheses": [
+    {"hypothesis":"CTR drop due to creative fatigue","confidence":0.78,"evidence":"median_ctr=0.02,worst=0.013,rel_change=-0.35"}
+  ]
+}
+creatives.json
 
-\- Controls loop between Insight → Evaluator → Planner  
+json
+Copy code
+[
+  {"campaign_name":"ComfortWear","suggestions":[{"headline":"Feel Softness Today","text":"Experience all-day comfort...","cta":"Shop Now"}]}
+]
+Deliverables & Where to look
+reports/insights.json — validated insights (structured)
 
-\- Decides when insight is “good enough”  
+reports/creatives.json — generated creative suggestions
 
-\- Sends final task to Creative Generator  
+reports/report.md — marketer-facing summary
 
+logs/run_logs.json — observability traces
 
+prompts/*.md — agent prompt templates
 
----
+Notes for reviewers (what to inspect)
+Check src/agents/* for reasoning & evaluator logic.
 
+Confirm insights.json contains numeric evidence per hypothesis.
 
+Run python -m src.run "Analyze ROAS drop" to reproduce.
 
-\### \*\*2. Data Agent\*\*
+Confirm tests pass: pytest -q.
 
-\- Loads CSV  
+Why this design matches Kasparro rubric
+Agentic reasoning architecture (Planner–Evaluator loop): Planner orchestrates and re-requests when confidence is low.
 
-\- Cleans + summarizes  
+Insight quality & validation: Hypotheses returned with numeric evidence.
 
-\- Computes metrics (ROAS, CTR, CPM, CVR)  
+Prompt design: Layered prompts (Think→Analyze→Conclude), strict JSON schema.
 
-\- Returns structured JSON  
-
-
-
----
-
-
-
-\### \*\*3. Insight Agent\*\*
-
-\- Generates hypotheses  
-
-\- Uses Think → Analyze → Conclude  
-
-\- Never hallucinates data (uses summaries only)  
-
-
-
----
-
-
-
-\### \*\*4. Evaluator Agent\*\*
-
-\- Quantitatively validates hypotheses  
-
-\- Computes supporting % drops, correlations, trends  
-
-\- Returns confidence score  
-
-
-
----
-
-
-
-\### \*\*5. Creative Generator\*\*
-
-\- For low-CTR segments, generates new creatives  
-
-\- Based on existing messaging patterns  
-
-\- Produces variations: headlines, primary text, CTAs  
-
-
-
----
-
-
-
-\# 🔁 Iterative Reasoning Loop
-
-1\. Planner → ask: “Why did ROAS drop?”  
-
-2\. Insight Agent → propose hypothesis  
-
-3\. Evaluator → check data trends  
-
-4\. Planner:  
-
-&nbsp;  - If confidence < threshold → ask for revision  
-
-&nbsp;  - If satisfied → conclude → move to creative generation  
-
-
-
----
-
-
-
-\# 📦 Final Outputs Produced
-
-\- \*\*insights.json\*\*  
-
-\- \*\*creatives.json\*\*
-
-\- \*\*report.md\*\*
-
-\- Optional: logs + traces  
-
-
-
----
-
-
-
-\# 🏁 Summary
-
-The system mimics how a real senior growth analyst works — by combining:  
-
-\*\*Planner → Insight → Evaluator → Creative\*\*  
-
-This is exactly the architecture for LLM-native analytics engine.
-
-
+Observability: Structured logs provide traceable decisions.
 
