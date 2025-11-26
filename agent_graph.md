@@ -368,3 +368,6 @@ Avoid checking full raw datasets into repo; include data/README.md explaining ho
 Make Evaluator deterministic (set seed, reproducible sampling) so tests and CI are stable.
 
 When changing prompt logic, bump a prompts/version.txt and log prompt version in logs/run_logs.json.
+
+<img width="959" height="437" alt="image" src="https://github.com/user-attachments/assets/45c7662b-10ca-40f9-9cc1-44048892c4bd" />
+
