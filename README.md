@@ -1,4 +1,4 @@
-➤ Kasparro Agentic FB Analyst – Priya Manisha
+➤ Kasparro Agentic FB Analyst – Manisha Priya
 <h1 align="center">🤖 Kasparro Agentic Facebook Performance Analyst</h1> <p align="center"> A multi-agent system that autonomously diagnoses ROAS fluctuations, validates hypotheses, and generates new creative directions using structured LLM reasoning. </p>
 🚀 1. Overview
 
