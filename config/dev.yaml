@@ -1,0 +1,6 @@
+confidence_min: 0.60
+retry_max: 2
+use_sample_data: true
+paths:
+  sample: "data/sample_fb_ads.csv"
+  full: "data/synthetic_fb_ads_undergarments.csv"

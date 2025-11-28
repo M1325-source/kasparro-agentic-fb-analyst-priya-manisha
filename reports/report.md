@@ -18,56 +18,56 @@ Analyze ROAS drop
 ## Creative Recommendations
 
 ### Campaign: MEN BOL COLORS DROP
-1. Headline: Discover Comfort Today
-   Text: Experience our comfort collection — Great comfort!
-   CTA: Buy Now
-2. Headline: Feel Comfort Today
+1. Headline: Try Comfort Today
    Text: Experience our comfort collection — Customer favorite!
-   CTA: Buy Now
-3. Headline: Try Comfort Today
-   Text: Experience our comfort collection — Customer favorite!
+   CTA: Shop Now
+2. Headline: Discover Comfort Today
+   Text: Experience our comfort collection — Limited stock!
+   CTA: Explore
+3. Headline: Feel Comfort Today
+   Text: Experience our comfort collection — Limited stock!
    CTA: Shop Now
 
 ### Campaign: WOMEN Seamless Everydy
-1. Headline: Try Comfort Today
-   Text: Experience our comfort collection — Great comfort!
-   CTA: Buy Now
-2. Headline: Feel Comfort Today
-   Text: Experience our comfort collection — Great comfort!
-   CTA: Explore
-3. Headline: Discover Comfort Today
-   Text: Experience our comfort collection — Limited stock!
-   CTA: Shop Now
-
-### Campaign: WOEN  Cotton  Classics
-1. Headline: Discover Comfort Today
-   Text: Experience our comfort collection — Limited stock!
-   CTA: Shop Now
-2. Headline: Discover Comfort Today
-   Text: Experience our comfort collection — Customer favorite!
-   CTA: Buy Now
-3. Headline: Discover Comfort Today
-   Text: Experience our comfort collection — Limited stock!
-   CTA: Shop Now
-
-### Campaign: MEN BOLD COL RS DROP
 1. Headline: Feel Comfort Today
    Text: Experience our comfort collection — Limited stock!
    CTA: Buy Now
-2. Headline: Try Comfort Today
+2. Headline: Feel Comfort Today
+   Text: Experience our comfort collection — Limited stock!
+   CTA: Explore
+3. Headline: Discover Comfort Today
+   Text: Experience our comfort collection — Great comfort!
+   CTA: Explore
+
+### Campaign: WOEN  Cotton  Classics
+1. Headline: Feel Comfort Today
    Text: Experience our comfort collection — Limited stock!
    CTA: Shop Now
-3. Headline: Feel Comfort Today
+2. Headline: Discover Comfort Today
+   Text: Experience our comfort collection — Limited stock!
+   CTA: Shop Now
+3. Headline: Try Comfort Today
    Text: Experience our comfort collection — Customer favorite!
    CTA: Buy Now
+
+### Campaign: MEN BOLD COL RS DROP
+1. Headline: Discover Comfort Today
+   Text: Experience our comfort collection — Customer favorite!
+   CTA: Explore
+2. Headline: Feel Comfort Today
+   Text: Experience our comfort collection — Limited stock!
+   CTA: Shop Now
+3. Headline: Discover Comfort Today
+   Text: Experience our comfort collection — Customer favorite!
+   CTA: Explore
 
 ### Campaign: MEN  Signture  Soft
 1. Headline: Feel Comfort Today
    Text: Experience our comfort collection — Great comfort!
    CTA: Shop Now
-2. Headline: Feel Comfort Today
+2. Headline: Try Comfort Today
    Text: Experience our comfort collection — Customer favorite!
-   CTA: Explore
-3. Headline: Discover Comfort Today
-   Text: Experience our comfort collection — Great comfort!
-   CTA: Explore
+   CTA: Shop Now
+3. Headline: Try Comfort Today
+   Text: Experience our comfort collection — Limited stock!
+   CTA: Buy Now
