@@ -80,3 +80,8 @@ Analyze ROAS drop
 3. Headline: Try Comfort Today
    Text: Experience our comfort collection — Great comfort!
    CTA: Buy Now
+
+P2: dataset adaptivity (sample / stratified sample) + JSON data source support.
+Config: see config/p2.yaml (sample_threshold, batch_size).
+Run: python src/run.py --config config/p2.yaml "Analyze ROAS".
+
