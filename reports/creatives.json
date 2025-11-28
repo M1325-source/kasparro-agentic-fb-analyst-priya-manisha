@@ -3,19 +3,19 @@
     "campaign_name": "MEN BOL COLORS DROP",
     "suggestions": [
       {
-        "headline": "Try Comfort Today",
-        "text": "Experience our comfort collection — Customer favorite!",
-        "cta": "Shop Now"
-      },
-      {
-        "headline": "Discover Comfort Today",
-        "text": "Experience our comfort collection — Limited stock!",
+        "headline": "Feel Comfort Today",
+        "text": "Experience our comfort collection ΓÇö Limited stock!",
         "cta": "Explore"
       },
       {
-        "headline": "Feel Comfort Today",
-        "text": "Experience our comfort collection — Limited stock!",
-        "cta": "Shop Now"
+        "headline": "Discover Comfort Today",
+        "text": "Experience our comfort collection ΓÇö Great comfort!",
+        "cta": "Buy Now"
+      },
+      {
+        "headline": "Discover Comfort Today",
+        "text": "Experience our comfort collection ΓÇö Great comfort!",
+        "cta": "Explore"
       }
     ]
   },
@@ -23,19 +23,19 @@
     "campaign_name": "WOMEN Seamless Everydy",
     "suggestions": [
       {
-        "headline": "Feel Comfort Today",
-        "text": "Experience our comfort collection — Limited stock!",
-        "cta": "Buy Now"
-      },
-      {
-        "headline": "Feel Comfort Today",
-        "text": "Experience our comfort collection — Limited stock!",
-        "cta": "Explore"
+        "headline": "Discover Comfort Today",
+        "text": "Experience our comfort collection ΓÇö Customer favorite!",
+        "cta": "Shop Now"
       },
       {
         "headline": "Discover Comfort Today",
-        "text": "Experience our comfort collection — Great comfort!",
+        "text": "Experience our comfort collection ΓÇö Great comfort!",
         "cta": "Explore"
+      },
+      {
+        "headline": "Try Comfort Today",
+        "text": "Experience our comfort collection ΓÇö Great comfort!",
+        "cta": "Buy Now"
       }
     ]
   },
@@ -43,18 +43,18 @@
     "campaign_name": "WOEN  Cotton  Classics",
     "suggestions": [
       {
+        "headline": "Discover Comfort Today",
+        "text": "Experience our comfort collection ΓÇö Limited stock!",
+        "cta": "Explore"
+      },
+      {
         "headline": "Feel Comfort Today",
-        "text": "Experience our comfort collection — Limited stock!",
-        "cta": "Shop Now"
+        "text": "Experience our comfort collection ΓÇö Great comfort!",
+        "cta": "Buy Now"
       },
       {
         "headline": "Discover Comfort Today",
-        "text": "Experience our comfort collection — Limited stock!",
-        "cta": "Shop Now"
-      },
-      {
-        "headline": "Try Comfort Today",
-        "text": "Experience our comfort collection — Customer favorite!",
+        "text": "Experience our comfort collection ΓÇö Customer favorite!",
         "cta": "Buy Now"
       }
     ]
@@ -64,18 +64,18 @@
     "suggestions": [
       {
         "headline": "Discover Comfort Today",
-        "text": "Experience our comfort collection — Customer favorite!",
-        "cta": "Explore"
+        "text": "Experience our comfort collection ΓÇö Customer favorite!",
+        "cta": "Buy Now"
       },
       {
         "headline": "Feel Comfort Today",
-        "text": "Experience our comfort collection — Limited stock!",
-        "cta": "Shop Now"
+        "text": "Experience our comfort collection ΓÇö Great comfort!",
+        "cta": "Buy Now"
       },
       {
         "headline": "Discover Comfort Today",
-        "text": "Experience our comfort collection — Customer favorite!",
-        "cta": "Explore"
+        "text": "Experience our comfort collection ΓÇö Customer favorite!",
+        "cta": "Buy Now"
       }
     ]
   },
@@ -84,17 +84,17 @@
     "suggestions": [
       {
         "headline": "Feel Comfort Today",
-        "text": "Experience our comfort collection — Great comfort!",
-        "cta": "Shop Now"
+        "text": "Experience our comfort collection ΓÇö Great comfort!",
+        "cta": "Explore"
+      },
+      {
+        "headline": "Feel Comfort Today",
+        "text": "Experience our comfort collection ΓÇö Great comfort!",
+        "cta": "Buy Now"
       },
       {
         "headline": "Try Comfort Today",
-        "text": "Experience our comfort collection — Customer favorite!",
-        "cta": "Shop Now"
-      },
-      {
-        "headline": "Try Comfort Today",
-        "text": "Experience our comfort collection — Limited stock!",
+        "text": "Experience our comfort collection ΓÇö Great comfort!",
         "cta": "Buy Now"
       }
     ]
