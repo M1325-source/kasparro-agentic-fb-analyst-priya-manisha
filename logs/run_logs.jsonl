@@ -1,0 +1,4 @@
+{"ts": "2025-11-28T14:53:35Z", "agent": "DataAgent", "level": "info", "msg": "validation_ok", "meta": {"rows": 3}}
+{"ts": "2025-11-28T14:56:16Z", "agent": "DataAgent", "level": "info", "msg": "validation_ok", "meta": {"rows": 3}}
+{"ts": "2025-11-28T15:08:34Z", "agent": "DataAgent", "level": "info", "msg": "validation_ok", "meta": {"rows": 3}}
+{"ts": "2025-11-28T15:15:52Z", "agent": "DataAgent", "level": "info", "msg": "validation_ok", "meta": {"rows": 3}}
