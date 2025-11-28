@@ -1,226 +1,237 @@
-# Kasparro Agentic Facebook Performance Analyst — Manisha Priya
+🌟 Kasparro — Agentic Facebook Performance Analyst (Production-Ready)-Manisha Priya
 
-This repository contains my solution for the **Kasparro Applied AI Engineer Assignment**, where I built a fully agentic, multi-step Facebook Ads performance analyst.  
-The system diagnoses ROAS drops, validates hypotheses, and generates new creative ideas using structured LLM reasoning.
+A fully-observable, multi-agent system for automated ROAS diagnosis, insight validation & creative generation.
+Built with structured logging, smart retries, data validation, and environment-aware config management.
 
----
+🚀 Overview
+
+This project implements a production-grade agentic pipeline that analyzes Facebook Ads performance, identifies root-cause issues, validates hypotheses using real data, and generates optimized creative suggestions.
+
+It follows Kasparro's rubric for:
+
+Agentic reasoning loop
+
+Quantitative evaluation
+
+Observability
+
+Testability & reliability
+
+Configuration management
+
+Content safety & correctness
+
+Result: A system that behaves like a miniature “Kasparro Ads Intelligence Engine”—transparent, debuggable, verifiable.
 
 
-# 🚀 Features
-✔ Multi-Agent Architecture (Planner → Data → Insight → Evaluator → Creative Generator)  
-✔ Quantitative + Qualitative reasoning  
-✔ Fully modular & config-driven  
-✔ Structured prompts + deterministic seeds  
-✔ Generates insights.json, creatives.json, and report.md  
-✔ Reproducible results with sample dataset  
-
----
-
-📊 Data
-
-Place the full CSV locally and set:
-
-DATA_CSV=/path/to/synthetic_fb_ads_undergarments.csv
-
-Or use small sample at:
-
-data/sample_fb_ads.csv
-
-See data/README.md for schema details.
-
-⚙️ Config
-
-Edit config/config.yaml:
-
-python: "3.10"
-random_seed: 42
-confidence_min: 0.6
-use_sample_data: true
-
-# 📂 Project Structure
-
-kasparro-agentic-fb-analyst-priya-manisha/
-│
-├── config/
-│ └── config.yaml
-│
-├── data/
-│ └── sample_fb_ads.csv
-│
-├── prompts/
-│ ├── planner_prompt.md
-│ ├── insight_prompt.md
-│ ├── evaluator_prompt.md
-│ └── creative_prompt.md
-│
-├── src/
-│ ├── agents/
-│ │ ├── planner.py
-│ │ ├── data_agent.py
-│ │ ├── insight_agent.py
-│ │ ├── evaluator.py
-│ │ └── creative_generator.py
-│ │
-│ ├── orchestrator/
-│ │ └── agent_orchestrator.py
-│ │
-│ ├── utils/
-│ │ └── logger.py
-│ │
-│ └── run.py
-│
-├── reports/
-│ ├── insights.json
-│ ├── creatives.json
-│ └── report.md
-│
-├── logs/
-│ └── execution.log
-│
-└── requirements.txt
-
-yaml
-Copy code
-
----
-
-# 🧠 Agent Architecture (Mermaid Diagram)
-
+🧠 High-Level Architecture
 flowchart TD
+  U[User Query] --> P[Planner Agent]
+  P -->|task plan| DA[Data Agent<br>load, validate, summarize]
+  DA -->|summary| IA[Insight Agent<br>generate hypotheses]
+  IA -->|hypotheses| EV[Evaluator Agent<br>quant validation]
+  EV -->|validated insights| P
+  P --> CG[Creative Generator<br>suggest new creatives]
+  CG --> R[Report Builder<br>MD + JSON outputs]
 
-UserQuery --> Planner
+  subgraph Logs
+      L((logs/run_logs.jsonl))
+  end
 
-Planner -->|subtasks| DataAgent
-Planner --> InsightAgent
+  DA --> L
+  IA --> L
+  EV --> L
+  CG --> L
+  P --> L
+  R --> L
 
-DataAgent -->|summary| InsightAgent
+  R --> OUT[reports/<br>insights.json<br>creatives.json<br>report.md]
 
-InsightAgent -->|hypotheses| Evaluator
-Evaluator -->|validated insights| Planner
+🧩 Agent Breakdown (Recruiter-Friendly)
+🧭 Planner — The Orchestrator
 
-Planner --> CreativeGenerator
-CreativeGenerator -->|creatives| Report
+Decomposes query
 
-Evaluator --> Report
-InsightAgent --> Report
+Orders subtasks
 
-yaml
-Copy code
+Tracks confidence
 
----
+Applies retry + backoff
 
-# ▶️ How to Run
+Ensures robustness
 
-make run
-# or:
-python src/run.py "Analyze ROAS drop"
+📊 Data Agent — The Source of Truth
 
-## 2️⃣ Activate
-Windows:
-.venv\Scripts\activate
+Loads FB Ads dataset
 
-shell
-Copy code
+Performs strict validation (nulls, bad types, outliers)
 
-## 3️⃣ Install dependencies
+Computes CTR/ROAS trends
+
+Supports CSV + Parquet
+
+Adapts automatically for big datasets
+
+🔍 Insight Agent — The Analyst
+
+Generates hypotheses
+
+Adds reasoning + suggested checks
+
+Outputs structured JSON only
+
+Includes reflection on low-confidence items
+
+📐 Evaluator — The Scientist
+
+Runs real metric calculations
+
+Outputs confidence + numeric evidence
+
+Validates or rejects hypotheses
+
+🎨 Creative Generator — The Content Brain
+
+Extracts messaging patterns
+
+Generates 3 variations per weak campaign
+
+No hallucinated features
+
+CTR-focused creative ideation
+
+📝 Report Builder
+
+Exports:
+
+insights.json
+
+creatives.json
+
+report.md
+
+Formatted cleanly for marketers.
+🔎 Observability & Logging (Production-Ready)
+
+Complete structured logging using JSONL:
+
+Example:
+
+{"ts":"2025-11-26T11:19:00Z","agent":"DataAgent","event":"validation_warning","meta":{"nan":3,"bad_types":1}}
+
+
+You get:
+
+full traceability
+
+debugging visibility
+
+replayable logs
+
+safety for multi-agent reasoning
+
+🔄 Smart Retry Logic
+
+Implemented exponential/linear hybrid backoff via:
+
+src/agents/retry.py
+
+
+Used when:
+
+evaluator low confidence
+
+planner requests refinement
+
+transient errors in LLM calls
+
+🧪 Testing Framework
+Unit Tests
+
+test_data_agent.py
+
+test_evaluator.py
+
+Check:
+
+schema correctness
+
+validation logic
+
+confidence calculations
+
+Integration Test
+
+test_integration.py
+
+Validates full chain:
+
+Data → Insight → Evaluator
+Ensuring pipeline does not silently fail.
+
+🗂 Config Management (dev / stage / prod)
+config/dev.yaml
+config/stage.yaml
+config/prod.yaml
+
+
+Supports:
+
+environment switching
+
+different file paths
+
+different thresholds
+
+production-safe defaults
+
+📦 Project Structure
+├── src
+│   ├── agents
+│   │   ├── data_agent.py
+│   │   ├── insight_agent.py
+│   │   ├── evaluator.py
+│   │   ├── creative_generator.py
+│   │   ├── planner.py
+│   │   └── retry.py
+│   ├── utils
+│   │   └── logger.py
+│   └── run.py
+├── config
+├── reports
+├── logs
+└── tests
+
+▶️ Running the System
+1. Install dependencies
 pip install -r requirements.txt
 
-shell
-Copy code
+2. Activate environment configuration
+set ENV=dev      # Windows
+export ENV=dev   # Linux/Mac
 
-## 4️⃣ Run full pipeline
-python -m src.run "Analyze ROAS drop"
+3. Run
+python src/run.py "Analyze ROAS drop in last 7 days"
 
-yaml
-Copy code
-
----
-
-# 📊 Output Files
-
-Generated automatically inside `/reports`:
-
-| File | Description |
-|------|-------------|
-| `insights.json` | Hypotheses + reasoning + confidence |
-| `creatives.json` | New creative suggestions |
-| `report.md` | Final marketing-ready report |
-
----
-
-# 📝 Example Output Snippet
-
-### insights.json
+🧾 Sample Output Files
+reports/insights.json
 {
-"hypothesis": "CTR dropped due to creative fatigue",
-"confidence": 0.82,
-"evidence": {
-"ctr_drop_pct": 23.4,
-"top_creatives": "high repetition across 14 days"
-}
-}
-
-shell
-Copy code
-
-### creatives.json
-{
-"campaign": "ComfortWear Summer",
-"headline": "Feel Softness in Every Move",
-"cta": "Try It Now",
-"message": "Designed for all-day comfort with breathable fabric."
+  "roas_change_pct": -0.32,
+  "hypotheses": [
+    {
+      "hypothesis": "Creative fatigue caused CTR decline",
+      "confidence": 0.82,
+      "evidence": "median_ctr=0.019, worst=0.012, rel change=-0.36"
+    }
+  ]
 }
 
-yaml
-Copy code
-
----
-
-🏷️ Release
-
-v1.0 Release:
-https://github.com/M1325-source/kasparro-agentic-fb-analyst-priya-manisha/releases/tag/v1.0
-
-📝 Self-Review (PR)
-
-Pull Request:
-https://github.com/M1325-source/kasparro-agentic-fb-analyst-priya-manisha/pull/1
-
-# 🧪 Tests
-Basic evaluator tests included in:
-
-tests/test_evaluator.py
-
-yaml
-Copy code
-
-Run tests:
-pytest
-
-yaml
-Copy code
-
----
-
-# 🔍 Why This Solution Is Strong
-✔ Implements **true agentic loop** (Planner ↔ Evaluator)  
-✔ Prompts structured with **reflection + schema expectations**  
-✔ Outputs are deterministic, clean, and directly evaluable  
-✔ Modular and production-ready directory structure  
-✔ Matching exactly Kasparro’s rubric  
-
----
-
-# 📌 Assignment Details
-This repo follows all requirements from:
-
-- *Kasparro Agentic FB Analyst Assignment*
-- *README_TEMPLATE.md*
-- *Evaluation Checklist*
-
----
-
-# 👤 Author
-**Manisha Priya**  
-Applied AI Engineer — Candidate  
-GitHub: https://github.com/M1325-source
+reports/creatives.json
+[
+  {
+    "campaign_name":"ComfortWear",
+    "suggestions":[
+      {"headline":"Feel the Difference","text":"Experience unmatched daily comfort","cta":"Shop Now"}
+    ]
+  }
+]
