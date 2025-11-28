@@ -1,237 +1,249 @@
-🌟 Kasparro — Agentic Facebook Performance Analyst (Production-Ready)-Manisha Priya
+🌟 Kasparro — Agentic Facebook Performance Analyst (v1.0)
 
-A fully-observable, multi-agent system for automated ROAS diagnosis, insight validation & creative generation.
-Built with structured logging, smart retries, data validation, and environment-aware config management.
+An AI-native, multi-agent diagnostic engine that explains why ROAS changed, validates hypotheses quantitatively, and generates data-grounded creative improvements — designed for real-world marketing workflows.
 
 🚀 Overview
 
-This project implements a production-grade agentic pipeline that analyzes Facebook Ads performance, identifies root-cause issues, validates hypotheses using real data, and generates optimized creative suggestions.
+This project builds a production-style agentic system aligned with Kasparro’s applied-AI philosophy:
 
-It follows Kasparro's rubric for:
+Multi-agent orchestration
 
-Agentic reasoning loop
+Structured reasoning + validation
 
-Quantitative evaluation
+RAG-style summarization
 
-Observability
+Creative generation grounded in historic messaging
 
-Testability & reliability
+Configuration management across environments
 
-Configuration management
+Observability + reliability baked in
 
-Content safety & correctness
+Designed to be modular, testable, debuggable, and easy to extend.
 
-Result: A system that behaves like a miniature “Kasparro Ads Intelligence Engine”—transparent, debuggable, verifiable.
+🧠 System Capabilities
+✔ Diagnose ROAS fluctuations
 
+Quantifies ROAS change across time windows, identifies potential causes.
 
-🧠 High-Level Architecture
+✔ Identify performance drivers
+
+Campaign-level CTR, ROAS, impressions, frequency patterns.
+
+✔ Generate hypotheses
+
+Creatively but consistently structured (Think → Analyze → Conclude).
+
+✔ Quantitative validation
+
+Evaluator converts qualitative hypotheses into numeric confidence & evidence.
+
+✔ Generate new creatives
+
+For low-CTR campaigns: headlines, primary text, CTA — grounded in dataset vocabulary.
+
+✔ Build production outputs
+
+Writes:
+
+reports/insights.json
+
+reports/creatives.json
+
+reports/report.md
+
+✔ Logging & observability
+
+Every agent logs JSON events to logs/run_logs.jsonl.
+
+⚙️ Quick Start
+# 1. Create virtual environment
+python -m venv .venv
+.venv\Scripts\activate  # Windows
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Choose environment (dev/stage/prod/p2)
+set ENV=dev
+
+# 4. Run analysis
+python src/run.py "Analyze ROAS drop in last 30 days"
+
+🧩 Architecture Diagram
 flowchart TD
   U[User Query] --> P[Planner Agent]
-  P -->|task plan| DA[Data Agent<br>load, validate, summarize]
-  DA -->|summary| IA[Insight Agent<br>generate hypotheses]
-  IA -->|hypotheses| EV[Evaluator Agent<br>quant validation]
+  P -->|subtasks| DA[Data Agent]
+  DA -->|summary| IA[Insight Agent]
+  IA -->|hypotheses| EV[Evaluator Agent]
   EV -->|validated insights| P
-  P --> CG[Creative Generator<br>suggest new creatives]
-  CG --> R[Report Builder<br>MD + JSON outputs]
-
+  P --> CG[Creative Generator]
+  CG --> R[Report Builder]
+  
   subgraph Logs
-      L((logs/run_logs.jsonl))
+    L((JSON Logs))
   end
+  
+  DA -.-> L
+  IA -.-> L
+  EV -.-> L
+  CG -.-> L
+  P -.-> L
+  R -.-> L
 
-  DA --> L
-  IA --> L
-  EV --> L
-  CG --> L
-  P --> L
-  R --> L
+📦 Repository Structure
+├── src/
+│   ├── agents/         # All agents + retry
+│   ├── utils/          # logger, config, data-source loaders
+│   └── run.py          # main orchestrator
+├── config/             # dev, prod, stage, p2 configs
+├── reports/            # generated insights + creatives
+├── logs/               # structured JSON logs
+├── tests/              # unit + integration tests
+├── prompts/            # structured prompts
+└── README.md
 
-  R --> OUT[reports/<br>insights.json<br>creatives.json<br>report.md]
+🏗️ Engineering Progress (Original → Improved)
+🔵 Initial Version
 
-🧩 Agent Breakdown (Recruiter-Friendly)
-🧭 Planner — The Orchestrator
+You originally built:
 
-Decomposes query
+Core multi-agent system
 
-Orders subtasks
+ROAS diagnosis
 
-Tracks confidence
+Hypothesis generation via structured prompts
 
-Applies retry + backoff
+Creative generation
 
-Ensures robustness
+Basic insights & creatives JSON
 
-📊 Data Agent — The Source of Truth
+Clean architecture + README
 
-Loads FB Ads dataset
+v1.0 release
 
-Performs strict validation (nulls, bad types, outliers)
+This met the assignment baseline.
 
-Computes CTR/ROAS trends
+🔥 P0 Improvements — Production Foundations
 
-Supports CSV + Parquet
+"Add structured logging, validation, tests." — Kasparro review feedback
 
-Adapts automatically for big datasets
+✔ Structured Logging
 
-🔍 Insight Agent — The Analyst
+Added logger.py
 
-Generates hypotheses
+Every agent logs JSONL events (timestamp, agent, meta)
 
-Adds reasoning + suggested checks
+✔ Data Validation
 
-Outputs structured JSON only
+Missing columns
 
-Includes reflection on low-confidence items
+Type mismatches
 
-📐 Evaluator — The Scientist
+Outlier detection
 
-Runs real metric calculations
+NaN recovery
 
-Outputs confidence + numeric evidence
+Logged with severity tags
 
-Validates or rejects hypotheses
-
-🎨 Creative Generator — The Content Brain
-
-Extracts messaging patterns
-
-Generates 3 variations per weak campaign
-
-No hallucinated features
-
-CTR-focused creative ideation
-
-📝 Report Builder
-
-Exports:
-
-insights.json
-
-creatives.json
-
-report.md
-
-Formatted cleanly for marketers.
-🔎 Observability & Logging (Production-Ready)
-
-Complete structured logging using JSONL:
-
-Example:
-
-{"ts":"2025-11-26T11:19:00Z","agent":"DataAgent","event":"validation_warning","meta":{"nan":3,"bad_types":1}}
-
-
-You get:
-
-full traceability
-
-debugging visibility
-
-replayable logs
-
-safety for multi-agent reasoning
-
-🔄 Smart Retry Logic
-
-Implemented exponential/linear hybrid backoff via:
-
-src/agents/retry.py
-
-
-Used when:
-
-evaluator low confidence
-
-planner requests refinement
-
-transient errors in LLM calls
-
-🧪 Testing Framework
-Unit Tests
+✔ Unit Tests
 
 test_data_agent.py
 
 test_evaluator.py
+Ensures schema correctness & confidence logic.
 
-Check:
+✔ Config Versioning (dev/prod)
 
-schema correctness
+Environment-based configuration loader.
 
-validation logic
+⚡ P1 Improvements — Reliability & Correctness
 
-confidence calculations
+"Smarter retry, versioned configs, integration tests."
 
-Integration Test
+✔ Backoff Retry Logic
 
-test_integration.py
+Linear, configurable wait times to handle low-confidence evaluations.
 
-Validates full chain:
+✔ Multi-Environment Config Loader
 
-Data → Insight → Evaluator
-Ensuring pipeline does not silently fail.
+config/dev.yaml, stage.yaml, prod.yaml
 
-🗂 Config Management (dev / stage / prod)
-config/dev.yaml
-config/stage.yaml
-config/prod.yaml
+✔ Integration Tests
 
+Ensures pipeline consistency across multiple runs.
+
+🚀 P2 Improvements — Scalability & Extensibility
+
+"Adaptive behavior + multi-source support."
+
+✔ Adaptive Data Strategy
+
+Small datasets → full load
+Medium → sampling
+Large → stratified sampling
+
+✔ Multi-Source Loader
 
 Supports:
 
-environment switching
+CSV
 
-different file paths
+JSON
 
-different thresholds
+Extensible future connectors
 
-production-safe defaults
+✔ Additional Tests
 
-📦 Project Structure
-├── src
-│   ├── agents
-│   │   ├── data_agent.py
-│   │   ├── insight_agent.py
-│   │   ├── evaluator.py
-│   │   ├── creative_generator.py
-│   │   ├── planner.py
-│   │   └── retry.py
-│   ├── utils
-│   │   └── logger.py
-│   └── run.py
-├── config
-├── reports
-├── logs
-└── tests
+Adaptivity behavior
 
-▶️ Running the System
-1. Install dependencies
-pip install -r requirements.txt
+Multi-source validation
 
-2. Activate environment configuration
-set ENV=dev      # Windows
-export ENV=dev   # Linux/Mac
-
-3. Run
-python src/run.py "Analyze ROAS drop in last 7 days"
-
-🧾 Sample Output Files
-reports/insights.json
+📊 Sample Output Formats
+insights.json
 {
-  "roas_change_pct": -0.32,
+  "roas_change_pct": -0.28,
   "hypotheses": [
     {
-      "hypothesis": "Creative fatigue caused CTR decline",
-      "confidence": 0.82,
-      "evidence": "median_ctr=0.019, worst=0.012, rel change=-0.36"
+      "hypothesis": "CTR decline due to creative fatigue",
+      "confidence": 0.76,
+      "evidence": "median_ctr=0.021, worst_ctr=0.012, delta=-0.35"
     }
   ]
 }
 
-reports/creatives.json
+creatives.json
 [
   {
-    "campaign_name":"ComfortWear",
-    "suggestions":[
-      {"headline":"Feel the Difference","text":"Experience unmatched daily comfort","cta":"Shop Now"}
+    "campaign_name": "ComfortWear",
+    "suggestions": [
+      {"headline": "Feel the Softness", "text": "All-day comfort you can trust.", "cta": "Shop Now"}
     ]
   }
 ]
+
+🧪 Testing
+pytest -q
+
+
+Includes:
+
+Unit tests
+
+Evaluator tests
+
+Integration tests
+
+Adaptivity + source loading tests
+
+🔗 Releases & PRs
+
+v1.0 Release:
+https://github.com/M1325-source/kasparro-agentic-fb-analyst-priya-manisha/releases/tag/v1.0
+
+P0 PR: improvements-p0  - https://github.com/M1325-source/kasparro-agentic-fb-analyst-priya-manisha/tree/improvements-p0
+
+P1 PR: improvements-p1 - https://github.com/M1325-source/kasparro-agentic-fb-analyst-priya-manisha/tree/improvements-p1
+
+P2 PR: improvements-p2 - https://github.com/M1325-source/kasparro-agentic-fb-analyst-priya-manisha/tree/improvements-p2
+
+(List your PR links here if you want — I can add them.)
