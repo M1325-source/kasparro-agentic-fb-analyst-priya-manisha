@@ -1,0 +1,9 @@
+# config/p2.yaml
+random_seed: 42
+sample_threshold: 20000   # <= this => process full dataset
+batch_size: 100000       # between sample_threshold and batch_size -> sample
+# default data source for P2 demo
+data_source:
+  type: csv
+  path: data/sample_fb_ads.csv
+  parse_dates: ["date"]
