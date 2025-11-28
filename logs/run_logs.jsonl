@@ -1,0 +1,11 @@
+{"ts": "2025-11-28T15:19:49Z", "agent": "DataAgent", "level": "info", "msg": "validation_ok", "meta": {"rows": 3}}
+{"ts": "2025-11-28T15:20:06Z", "agent": "DataAgent", "level": "info", "msg": "loaded_csv", "meta": {"path": "data/sample_fb_ads.csv", "rows": 4500}}
+{"ts": "2025-11-28T15:20:06Z", "agent": "DataAgent", "level": "info", "msg": "validation_issues", "meta": {"issues": [{"null_counts": {"campaign_name": 0, "adset_name": 0, "date": 0, "spend": 113, "impressions": 0, "clicks": 152, "ctr": 0, "purchases": 0, "revenue": 133, "roas": 9, "creative_type": 0, "creative_message": 0, "audience_type": 0, "platform": 0, "country": 0}}, {"ctr_outliers": 1}], "rows": 4500}}
+{"ts": "2025-11-28T15:20:06Z", "agent": "DataAgent", "level": "info", "msg": "validation_warning", "meta": {"issues_count": 2}}
+{"ts": "2025-11-28T15:20:06Z", "agent": "DataAgent", "level": "info", "msg": "summarized", "meta": {"rows": 4500, "roas_change_pct": -0.18273867067239755, "median_ctr": 0.0123}}
+{"ts": "2025-11-28T15:34:45Z", "agent": "DataAgent", "level": "info", "msg": "validation_ok", "meta": {"rows": 3}}
+{"ts": "2025-11-28T15:34:45Z", "agent": "DataAgent", "level": "info", "msg": "loaded_csv", "meta": {"path": "C:\\Users\\HP\\AppData\\Local\\Temp\\pytest-of-HP\\pytest-0\\test_integration_data_to_evalu0\\sample_integration.csv", "rows": 4}}
+{"ts": "2025-11-28T15:34:45Z", "agent": "DataAgent", "level": "info", "msg": "missing_columns", "meta": {"missing": ["purchases", "revenue"]}}
+{"ts": "2025-11-28T15:34:45Z", "agent": "DataAgent", "level": "info", "msg": "validation_issues", "meta": {"issues": [{"null_counts": {"date": 0, "campaign_name": 0, "roas": 0, "ctr": 0, "spend": 0, "impressions": 0, "clicks": 0, "creative_message": 0, "purchases": 4, "revenue": 4}}], "rows": 4}}
+{"ts": "2025-11-28T15:34:45Z", "agent": "DataAgent", "level": "info", "msg": "validation_warning", "meta": {"issues_count": 1}}
+{"ts": "2025-11-28T15:34:45Z", "agent": "DataAgent", "level": "info", "msg": "summarized", "meta": {"rows": 4, "roas_change_pct": 0.0, "median_ctr": 0.03325}}

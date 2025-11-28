@@ -1,4 +1,26 @@
 {
-  "roas_change_pct": -0.15900054336365294,
-  "hypotheses": []
+  "roas_change_pct": -0.18273867067239755,
+  "hypotheses": [
+    {
+      "id": null,
+      "hypothesis": "ROAS decreased due to CTR drop",
+      "metric": "ctr",
+      "confidence": 0.761,
+      "evidence": "median_ctr=0.0123, source=campaign_metrics"
+    },
+    {
+      "id": null,
+      "hypothesis": "ROAS decreased due to audience fatigue",
+      "metric": "impressions",
+      "confidence": 0.5,
+      "evidence": "no detailed check implemented for impressions (fallback)"
+    },
+    {
+      "id": null,
+      "hypothesis": "ROAS decreased due to creative underperformance",
+      "metric": "creative_message",
+      "confidence": 0.5,
+      "evidence": "no metric-specific check, returned initial_confidence"
+    }
+  ]
 }
